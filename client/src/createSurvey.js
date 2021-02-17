@@ -1,32 +1,16 @@
 import { useState } from "react";
+import axios from "./axios";
 import Container from "@material-ui/core/Container";
 import Textfield from "@material-ui/core/Textfield";
-import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
 import RemoveCircleOutlineOutlinedIcon from "@material-ui/icons/RemoveCircleOutlineOutlined";
 import { IconButton } from "@material-ui/core";
-
-const styles = makeStyles((theme) => ({
-    textfield: {
-        "& .MuiTextField-root": {
-            width: "40%",
-        },
-    },
-    add: {
-        color: "green",
-    },
-    remove: {
-        color: "red",
-    },
-    button: {
-        margin: theme.spacing(3),
-        width: "15%",
-    },
-}));
+import { styles } from "./style";
 
 export default function CreateSurvey() {
     const classes = styles();
+    const [error, setError] = useState(false);
     const [inputFields, setInputFields] = useState([{ question: "" }]);
 
     const handleChange = (index, event) => {
@@ -50,7 +34,24 @@ export default function CreateSurvey() {
 
     const submitQuestions = (event) => {
         event.preventDefault();
-        console.log(inputFields);
+        var data = {
+            questions: inputFields,
+        };
+        console.log(data);
+
+        axios
+            .post("/api/create-survey", data)
+            .then(({ data }) => {
+                if (data.success) {
+                    console.log("data success", data);
+                } else {
+                    setError(true);
+                }
+            })
+            .catch((error) => {
+                console.log("error in post api/create-survey", error);
+                setError(true);
+            });
     };
 
     return (
@@ -62,6 +63,7 @@ export default function CreateSurvey() {
                 diam nonumy eirmod tempor invidunt ut labore et dolore magna
                 aliquyam erat, sed diam voluptua.
             </p>
+            {error && <p>Something went wrong, try again!</p>}
 
             <form className={classes.textfield}>
                 {inputFields.map((inputField, index) => (
