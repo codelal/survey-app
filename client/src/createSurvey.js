@@ -44,7 +44,7 @@ export default function CreateSurvey() {
     const removeQuestion = (index) => {
         const values = [...inputFields];
         values.splice(index, 1);
-        //Splice((1)index of element we want to remove), (2) how many elemnts we want to remve. (3)optional: adding new elements"
+        //Splice: 1-index of element we want to remove), 2- how many elemnts we want to remve, 3- adding new elements
         setInputFields(values);
     };
 
