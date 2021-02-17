@@ -1,7 +1,10 @@
 import ReactDOM from "react-dom";
+import Creators from "./creators";
 
-ReactDOM.render(<HelloWorld />, document.querySelector("main"));
+// if (location.pathname === "/creators") {
+//     elem = <Creators />;
+// } else {
+//     elem = <p>participants</p>;
+// }
 
-function HelloWorld() {
-    return <div>Hello, World!</div>;
-}
+ReactDOM.render(<Creators />, document.querySelector("main"));
