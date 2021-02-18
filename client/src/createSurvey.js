@@ -11,12 +11,18 @@ import { styles } from "./style";
 export default function CreateSurvey() {
     const classes = styles();
     const [error, setError] = useState(false);
+    const [title, setTitle] = useState("");
     const [inputFields, setInputFields] = useState([{ question: "" }]);
 
+    const handleTitle = (event) => {
+        setTitle(event.target.value);
+        //console.log(title, event.target.value);
+    };
+
     const handleChange = (index, event) => {
-        console.log(event.target.name);
+        // console.log(event.target.name);
         const values = [...inputFields];
-        console.log("values before", values);
+        // console.log("values before", values);
         values[index][event.target.name] = event.target.value;
         setInputFields(values);
     };
@@ -35,6 +41,7 @@ export default function CreateSurvey() {
     const submitQuestions = (event) => {
         event.preventDefault();
         var data = {
+            title: title,
             questions: inputFields,
         };
         console.log(data);
@@ -43,7 +50,7 @@ export default function CreateSurvey() {
             .post("/api/create-survey", data)
             .then(({ data }) => {
                 if (data.success) {
-                    console.log("data success", data);
+                    location.replace(`/results/${data.randomString}`);
                 } else {
                     setError(true);
                 }
@@ -64,7 +71,12 @@ export default function CreateSurvey() {
                 aliquyam erat, sed diam voluptua.
             </p>
             {error && <p>Something went wrong, try again!</p>}
-
+            <Textfield
+                name="title"
+                label="Title"
+                variant="outlined"
+                onChange={() => handleTitle(event)}
+            />
             <form className={classes.textfield}>
                 {inputFields.map((inputField, index) => (
                     <div key={index}>
@@ -73,7 +85,7 @@ export default function CreateSurvey() {
                             label={`${index + 1}.Question `}
                             variant="outlined"
                             value={inputField.question}
-                            onChange={(event) => handleChange(index, event)}
+                            onChange={() => handleChange(index, event)}
                         />
                         <IconButton
                             className={classes.add}

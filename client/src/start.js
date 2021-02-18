@@ -1,10 +1,4 @@
 import ReactDOM from "react-dom";
-import Creators from "./creators";
+import App from "./app";
 
-// if (location.pathname === "/creators") {
-//     elem = <Creators />;
-// } else {
-//     elem = <p>participants</p>;
-// }
-
-ReactDOM.render(<Creators />, document.querySelector("main"));
+ReactDOM.render(<App />, document.querySelector("main"));

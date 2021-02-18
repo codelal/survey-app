@@ -5,11 +5,13 @@ const path = require("path");
 const csurf = require("csurf");
 const cookieSession = require("cookie-session");
 const uidSafe = require("uid-safe");
-
+const cryptoRandomString = require("crypto-random-string");
+const db = require("./db");
+const randomString = cryptoRandomString({
+    length: 6,
+});
 
 // const config = require("./config.json"); //file upload
-
-// const db = require("./db");
 
 app.use(compression());
 app.use(
@@ -26,7 +28,6 @@ const cookieSessionMiddleware = cookieSession({
 
 app.use(cookieSessionMiddleware);
 
-
 app.use(csurf());
 
 app.use(function (req, res, next) {
@@ -36,21 +37,40 @@ app.use(function (req, res, next) {
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
+app.post("/api/create-survey", (req, res) => {
+    const { questions, title } = req.body;
+    //console.log("data", questions);
+    // const resultsCode = randomString;
+    // console.log("randomString", randomString);
 
-// app.get("/creators", (req, res) => {
-//     if (req.session.userId) {
-//         res.redirect("/");
-//     } else {
-//         res.sendFile(path.join(__dirname, "..", "client", "index.html"));
-//     }
-// });
+    db.insertSurvey(title, randomString)
+        .then(({ rows }) => {
+            const surveyId = rows[0].id;
+            db.insertQuestions(surveyId, questions).then(({ rows }) => {
+                // console.log(rows);
+                res.json({ success: true, randomString: randomString });
+            });
+        })
+        .catch((err) => {
+            console.log("error in insertQuestions", err);
+            res.json({ success: false });
+        })
+        .catch((err) => {
+            console.log("error in insertSurvey", err);
+            res.json({ success: false });
+        });
+});
+
+app.get("/api/results/:resultCode", (req, res) => {
+    // const { resultCode } = req.params;
+    // console.log("api/results/:resultCode", resultCode);
+    //get questions + answers//
+    res.json({ success: true });
+});
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
-
-
-
 
 app.listen(process.env.PORT || 3001, function () {
     console.log("Server survey-app is listening.");
