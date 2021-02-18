@@ -38,28 +38,26 @@ app.use(function (req, res, next) {
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
 app.post("/api/create-survey", (req, res) => {
-    const { questions, title } = req.body;
-    //console.log("data", questions);
-    // const resultsCode = randomString;
-    // console.log("randomString", randomString);
+    const { arrayOfQuestions, title } = req.body;
 
     db.insertSurvey(title, randomString)
         .then(({ rows }) => {
             req.session.surveyId = rows[0].id;
-            db.insertQuestions(req.session.surveyId, questions).then(
-                ({ rows }) => {
-                    // console.log(rows);
-                    res.json({
-                        success: true,
-                        randomString: randomString,
-                        surveyId: rows[0].id,
+            for (let i = 0; i < arrayOfQuestions.length; i++) {
+                db.insertQuestions(
+                    req.session.surveyId,
+                    arrayOfQuestions[i].question
+                )
+                    .then(({ rows }) => {})
+                    .catch((err) => {
+                        console.log("error in insertQuestions", err);
+                        res.json({ success: false });
                     });
-                }
-            );
-        })
-        .catch((err) => {
-            console.log("error in insertQuestions", err);
-            res.json({ success: false });
+            }
+            res.json({
+                success: true,
+                randomString: randomString,
+            });
         })
         .catch((err) => {
             console.log("error in insertSurvey", err);
@@ -77,10 +75,11 @@ app.get("/api/results/:resultCode", (req, res) => {
 app.get("/api/questions", (req, res) => {
     db.getQuestions(req.session.surveyId)
         .then(({ rows }) => {
-            console.log(rows);
+            console.log("rows from get questions", rows);
+            const questions = rows[0].questions;
             res.json({
                 success: true,
-                rows,
+                questions,
             });
         })
         .catch((err) => {

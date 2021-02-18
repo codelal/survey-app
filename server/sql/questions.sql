@@ -1,8 +1,7 @@
-DROP TABLE IF EXISTS questions;
+DROP TABLE IF EXISTS questions cascade;
 
 CREATE TABLE questions(
   id SERIAL PRIMARY KEY,
   survey_id INT REFERENCES surveys(id) NOT NULL,
-  questions VARCHAR NOT NULL CHECK (questions != ''),
-  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  question VARCHAR NOT NULL CHECK (question != '')
 );

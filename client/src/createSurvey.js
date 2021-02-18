@@ -13,7 +13,7 @@ export default function CreateSurvey() {
     const classes = styles();
     const [error, setError] = useState(false);
     const [title, setTitle] = useState("");
-    const [inputFields, setInputFields] = useState([{ question: "" }]);
+    const [inputFields, setInputFields] = useState([{question: "" }]);
     let { randomString } = useParams();
 
     const handleTitle = (event) => {
@@ -44,7 +44,7 @@ export default function CreateSurvey() {
         event.preventDefault();
         var data = {
             title: title,
-            questions: inputFields,
+            arrayOfQuestions: inputFields,
         };
         console.log(data);
 
@@ -52,7 +52,7 @@ export default function CreateSurvey() {
             .post("/api/create-survey", data)
             .then(({ data }) => {
                 if (data.success) {
-                    location.replace(`/results/${data.randomString}-${data.surveyId}`);
+                    location.replace(`/results/${data.randomString}`);
                 } else {
                     setError(true);
                 }
