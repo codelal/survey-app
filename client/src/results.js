@@ -1,4 +1,5 @@
 import axios from "./axios";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
@@ -16,7 +17,7 @@ export default function Results() {
         axios
             .get(`/api/results/${randomString}`)
             .then(({ data }) => {
-                console.log("data in api/survey-results");
+                console.log("data in api/survey-results", data);
                 setParticipantsUrl(`/participants/${randomString}`);
             })
             .catch((err) => {
@@ -33,7 +34,7 @@ export default function Results() {
         <>
             <h1>You new survey</h1>
             <p>You should really bookmark this page</p>
-            <p>Open you shareable Link here:{participantsUrl}</p>
+            <Link to={participantsUrl}>Open you shareable Link here</Link>
             <h2>Results</h2>
             {results &&
                 results.map((result) => (

@@ -45,11 +45,17 @@ app.post("/api/create-survey", (req, res) => {
 
     db.insertSurvey(title, randomString)
         .then(({ rows }) => {
-            const surveyId = rows[0].id;
-            db.insertQuestions(surveyId, questions).then(({ rows }) => {
-                // console.log(rows);
-                res.json({ success: true, randomString: randomString });
-            });
+            req.session.surveyId = rows[0].id;
+            db.insertQuestions(req.session.surveyId, questions).then(
+                ({ rows }) => {
+                    // console.log(rows);
+                    res.json({
+                        success: true,
+                        randomString: randomString,
+                        surveyId: rows[0].id,
+                    });
+                }
+            );
         })
         .catch((err) => {
             console.log("error in insertQuestions", err);
@@ -66,6 +72,21 @@ app.get("/api/results/:resultCode", (req, res) => {
     // console.log("api/results/:resultCode", resultCode);
     //get questions + answers//
     res.json({ success: true });
+});
+
+app.get("/api/questions", (req, res) => {
+    db.getQuestions(req.session.surveyId)
+        .then(({ rows }) => {
+            console.log(rows);
+            res.json({
+                success: true,
+                rows,
+            });
+        })
+        .catch((err) => {
+            console.log("error in getQuestions", err);
+            res.json({ success: false });
+        });
 });
 
 app.get("*", function (req, res) {

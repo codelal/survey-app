@@ -21,3 +21,9 @@ module.exports.insertQuestions = (surveyId, questions) => {
         [surveyId, questions]
     );
 };
+
+module.exports.getQuestions = (surveyId) => {
+    return db.query(`SELECT * FROM questions WHERE survey_Id = ($1)`, [
+        surveyId,
+    ]);
+};

@@ -7,12 +7,14 @@ import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOut
 import RemoveCircleOutlineOutlinedIcon from "@material-ui/icons/RemoveCircleOutlineOutlined";
 import { IconButton } from "@material-ui/core";
 import { styles } from "./style";
+import { useParams } from "react-router";
 
 export default function CreateSurvey() {
     const classes = styles();
     const [error, setError] = useState(false);
     const [title, setTitle] = useState("");
     const [inputFields, setInputFields] = useState([{ question: "" }]);
+    let { randomString } = useParams();
 
     const handleTitle = (event) => {
         setTitle(event.target.value);
@@ -50,7 +52,7 @@ export default function CreateSurvey() {
             .post("/api/create-survey", data)
             .then(({ data }) => {
                 if (data.success) {
-                    location.replace(`/results/${data.randomString}`);
+                    location.replace(`/results/${data.randomString}-${data.surveyId}`);
                 } else {
                     setError(true);
                 }
