@@ -21,10 +21,10 @@ export default function CreateSurvey() {
         //console.log(title, event.target.value);
     };
 
-    const handleChange = (index, event) => {
+    const handleInput = (index, event) => {
         // console.log(event.target.name);
         const values = [...inputFields];
-        // console.log("values before", values);
+        console.log("values before", values);
         values[index][event.target.name] = event.target.value;
         setInputFields(values);
     };
@@ -40,7 +40,7 @@ export default function CreateSurvey() {
         setInputFields(values);
     };
 
-    const submitQuestions = (event) => {
+    const submitInput = (event) => {
         event.preventDefault();
         var data = {
             title: title,
@@ -87,7 +87,7 @@ export default function CreateSurvey() {
                             label={`${index + 1}.Question `}
                             variant="outlined"
                             value={inputField.question}
-                            onChange={() => handleChange(index, event)}
+                            onChange={() => handleInput(index, event)}
                         />
                         <IconButton
                             className={classes.add}
@@ -108,7 +108,7 @@ export default function CreateSurvey() {
                     variant="contained"
                     type="submit"
                     color="primary"
-                    onClick={() => submitQuestions(event)}
+                    onClick={() => submitInput(event)}
                 >
                     Save and publish
                 </Button>

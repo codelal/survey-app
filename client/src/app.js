@@ -3,6 +3,7 @@ import Index from "./index";
 import CreateSurvey from "./createSurvey";
 import Results from "./results";
 import Participants from "./participants";
+import Thanks from "./thanks";
 
 export default function App() {
     return (
@@ -16,6 +17,10 @@ export default function App() {
                     <Route
                         path="/participants/:randomString"
                         component={Participants}
+                    />
+                    <Route
+                        path="/thanks/:randomString"
+                        component={Thanks}
                     />
                 </div>
             </BrowserRouter>

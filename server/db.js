@@ -16,7 +16,7 @@ module.exports.insertSurvey = (title, resultsCode) => {
 module.exports.insertQuestions = (surveyId, question) => {
     return db.query(
         `INSERT INTO questions (survey_id, question)
-        VALUES($1, $3)
+        VALUES($1, $2)
         RETURNING id`,
         [surveyId, question]
     );
@@ -24,8 +24,17 @@ module.exports.insertQuestions = (surveyId, question) => {
 
 module.exports.getQuestions = (surveyId) => {
     return db.query(
-        `SELECT surveys.title, questions.question FROM questions LEFT JOIN surveys ON questions.survey_id = surveys.id WHERE questions.survey_id=($1) ORDER BY questions.id DESC`,
+        `SELECT surveys.title, questions.survey_id, questions.question, questions.id FROM questions LEFT JOIN surveys ON questions.survey_id = surveys.id WHERE questions.survey_id=($1) ORDER BY questions.id DESC`,
         [surveyId]
+    );
+};
+
+module.exports.insertAnswers = (surveyId, answer) => {
+    return db.query(
+        `INSERT INTO answers (survey_id, answer)
+        VALUES($1, $2)
+        RETURNING id`,
+        [surveyId, answer]
     );
 };
 

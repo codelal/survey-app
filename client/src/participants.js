@@ -7,25 +7,30 @@ import { styles } from "./style";
 import { useParams } from "react-router";
 
 export default function Participants() {
+    let { randomString } = useParams();
     const classes = styles();
     const [error, setError] = useState(false);
     const [inputFields, setInputFields] = useState([{ answer: "" }]);
-    let { randomString } = useParams();
-    //console.log(randomString);
+    const [questions, setQuestions] = useState([]);
+    const [title, setTitle] = useState("");
+    const [surveyId, setSurveyId] = useState();
 
     useEffect(() => {
         // let abort;
-
         axios
-            .get(`/api/questions`)
+            .get(`/api/questions`) // add survey-id or randomstring to get questions
             .then(({ data }) => {
-                console.log("data in api/survey-results", data);
-               
-
-
+                if (data.success) {
+                    console.log("data in api/questions", data.rows);
+                    setTitle(data.rows[0].title);
+                    setSurveyId(data.rows[0].survey_id);
+                    setQuestions(data.rows);
+                } else {
+                    setError(true);
+                }
             })
             .catch((err) => {
-                console.log("error in api/latest-users", err);
+                console.log("error api/api/questions", err);
                 setError(true);
             });
 
@@ -34,32 +39,67 @@ export default function Participants() {
         // };
     }, []);
 
+    const handleInput = (index, event) => {
+        console.log(index);
+        const values = [...inputFields];
+        values[index][event.target.name] = event.target.value;
+        setInputFields(values);
+        console.log(setInputFields);
+    };
+
+    const submitInput = (event) => {
+        event.preventDefault();
+        var data = {
+            arrayOfAnswers: inputFields,
+            surveyId: surveyId,
+        };
+        console.log("answers data", data);
+
+        axios
+            .post("/api/answers", data)
+            .then(({ data }) => {
+                if (data.success) {
+                    // location.replace(`/thanks/${randomString}`);
+                } else {
+                    setError(true);
+                }
+            })
+            .catch((error) => {
+                console.log("error in post api/create-survey", error);
+                setError(true);
+            });
+    };
+
     return (
         <Container>
             <h1>Welcome to the survey</h1>
             {error && <p>Something went wrong, try again!</p>}
-            <form className={classes.textfield}>
-                {inputFields.map((inputField, index) => (
+            <p>Title: {title}</p>
+
+            {questions.length &&
+                questions.map((question, index) => (
                     <div key={index}>
-                        <Textfield
-                            name="answer"
-                            label="Question"
-                            variant="outlined"
-                            value={inputField.answer}
-                            onChange={() => handleChange(index, event)}
-                        />
+                        <p>{question.question}</p>
+                        <form className={classes.textfield}>
+                            <Textfield
+                                name="answer"
+                                label="Answer here"
+                                variant="outlined"
+                                onChange={() => handleInput(index, event)}
+                            />
+                        </form>
                     </div>
                 ))}
-                <Button
-                    className={classes.button}
-                    variant="contained"
-                    type="submit"
-                    color="primary"
-                    onClick={() => submitAnswers(event)}
-                >
-                    Send
-                </Button>
-            </form>
+
+            <Button
+                className={classes.button}
+                variant="contained"
+                type="submit"
+                color="primary"
+                onClick={() => submitInput(event)}
+            >
+                Send
+            </Button>
         </Container>
     );
 }
