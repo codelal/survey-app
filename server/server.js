@@ -68,19 +68,23 @@ app.post("/api/create-survey", (req, res) => {
 app.get("/api/results/:resultCode", (req, res) => {
     // const { resultCode } = req.params;
     // console.log("api/results/:resultCode", resultCode);
-    //get questions + answers//
+    // get questions + answers//
 
     res.json({ success: true });
 });
 
-app.get("/api/questions", (req, res) => {
-    db.getQuestions(req.session.surveyId)
-        .then(({ rows }) => {
-            console.log("rows from get questions", rows);
+app.get("/api/questions/:resultCode", (req, res) => {
+    const { resultCode } = req.params;
+    //  console.log("resultCode", resultCode);
 
+    db.getQuestions(resultCode)
+        .then(({ rows }) => {
+            //console.log("rows from get questions", rows);
+            const reversedAnswers = rows.reverse();
+            console.log(reversedAnswers);
             res.json({
                 success: true,
-                rows,
+                reversedAnswers,
             });
         })
         .catch((err) => {

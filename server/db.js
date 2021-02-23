@@ -22,10 +22,10 @@ module.exports.insertQuestions = (surveyId, question) => {
     );
 };
 
-module.exports.getQuestions = (surveyId) => {
+module.exports.getQuestions = (resultsCode) => {
     return db.query(
-        `SELECT surveys.title, questions.survey_id, questions.question, questions.id FROM questions LEFT JOIN surveys ON questions.survey_id = surveys.id WHERE questions.survey_id=($1) ORDER BY questions.id DESC`,
-        [surveyId]
+        `SELECT surveys.title, questions.survey_id, questions.question, questions.id FROM questions LEFT JOIN surveys ON questions.survey_id = surveys.id WHERE surveys.results_code = $1 ORDER BY questions.id DESC`,
+        [resultsCode]
     );
 };
 
@@ -38,12 +38,14 @@ module.exports.insertAnswers = (surveyId, answer) => {
     );
 };
 
+
+
 // module.exports.getProfileData = (userId) => {
 //     return db.query(
 //         `SELECT users.first, users.last, users.email, user_profiles.age, user_profiles.url, user_profiles.city
 //         FROM user_profiles
 //         LEFT JOIN  users
-//         ON user_profiles.user_id = users.id 
+//         ON user_profiles.user_id = users.id
 //         WHERE user_profiles.user_id = ($1)`,
 //         [userId]
 //     );

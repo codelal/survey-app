@@ -18,13 +18,13 @@ export default function Participants() {
     useEffect(() => {
         // let abort;
         axios
-            .get(`/api/questions`) // add survey-id or randomstring to get questions
+            .get(`/api/questions//${randomString}`) // add survey-id or randomstring to get questions
             .then(({ data }) => {
                 if (data.success) {
-                    console.log("data in api/questions", data.rows);
-                    setTitle(data.rows[0].title);
-                    setSurveyId(data.rows[0].survey_id);
-                    setQuestions(data.rows);
+                    console.log("data in api/questions", data.reversedAnswers);
+                    setTitle(data.reversedAnswers[0].title);
+                    setSurveyId(data.reversedAnswers[0].survey_id);
+                    setQuestions(data.reversedAnswers);
                 } else {
                     setError(true);
                 }
@@ -40,11 +40,10 @@ export default function Participants() {
     }, []);
 
     const handleInput = (index, event) => {
-        console.log(index);
-        const values = [...inputFields];
-        values[index][event.target.name] = event.target.value;
-        setInputFields(values);
-        console.log(setInputFields);
+        // let values = [...inputFields];
+        // console.log(index, values);
+        // values[index][event.target.name] = event.target.value
+        // setInputFields(values);
     };
 
     const submitInput = (event) => {
@@ -75,18 +74,20 @@ export default function Participants() {
             <h1>Welcome to the survey</h1>
             {error && <p>Something went wrong, try again!</p>}
             <p>Title: {title}</p>
-
             {questions.length &&
                 questions.map((question, index) => (
-                    <div key={index}>
+                    <div key={question.id}>
                         <p>{question.question}</p>
                         <form className={classes.textfield}>
-                            <Textfield
-                                name="answer"
-                                label="Answer here"
-                                variant="outlined"
-                                onChange={() => handleInput(index, event)}
-                            />
+                            <div key={index}>
+                                <Textfield
+                                    name={`${question.id}answer`}
+                                    label={`${index + 1}.Question `}
+                                    variant="outlined"
+                                    value={inputFields.answer}
+                                    onChange={() => handleInput(index, event)}
+                                />
+                            </div>
                         </form>
                     </div>
                 ))}

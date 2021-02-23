@@ -24,7 +24,6 @@ export default function CreateSurvey() {
     const handleInput = (index, event) => {
         // console.log(event.target.name);
         const values = [...inputFields];
-        console.log("values before", values);
         values[index][event.target.name] = event.target.value;
         setInputFields(values);
     };
@@ -38,6 +37,7 @@ export default function CreateSurvey() {
         values.splice(index, 1);
         //Splice: 1-index of element we want to remove), 2- how many elemnts we want to remve, 3- adding new elements
         setInputFields(values);
+       
     };
 
     const submitInput = (event) => {
