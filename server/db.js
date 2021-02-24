@@ -24,21 +24,26 @@ module.exports.insertQuestions = (surveyId, question) => {
 
 module.exports.getQuestions = (resultsCode) => {
     return db.query(
-        `SELECT surveys.title, questions.survey_id, questions.question, questions.id FROM questions LEFT JOIN surveys ON questions.survey_id = surveys.id WHERE surveys.results_code = $1 ORDER BY questions.id DESC`,
+        `SELECT surveys.title, questions.question, questions.id FROM questions LEFT JOIN surveys ON questions.survey_id = surveys.id WHERE surveys.results_code = $1 ORDER BY questions.id ASC`,
         [resultsCode]
     );
 };
 
-module.exports.insertAnswers = (surveyId, answer) => {
+module.exports.insertAnswers = (questionId, answer) => {
     return db.query(
-        `INSERT INTO answers (survey_id, answer)
+        `INSERT INTO answers (question_id, answer)
         VALUES($1, $2)
         RETURNING id`,
-        [surveyId, answer]
+        [questionId, answer]
     );
 };
 
-
+module.exports.getResults = (resultsCode) => {
+    return db.query(
+        `SELECT surveys.title, questions.question, questions.id, answers.answer FROM questions LEFT JOIN surveys ON questions.survey_id = surveys.id JOIN answers ON answers.question_id = questions.id WHERE surveys.results_code = $1 ORDER BY questions.id ASC`,
+        [resultsCode]
+    );
+};
 
 // module.exports.getProfileData = (userId) => {
 //     return db.query(

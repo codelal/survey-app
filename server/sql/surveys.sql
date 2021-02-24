@@ -8,3 +8,4 @@ CREATE TABLE surveys(
 );
 
 
+INSERT INTO surveys(title, results_code) VALUES ('Coding-Survey', 'POHUyBmIWwvkmyp1oH8vHl6b');

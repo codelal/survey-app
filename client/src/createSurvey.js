@@ -7,22 +7,20 @@ import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOut
 import RemoveCircleOutlineOutlinedIcon from "@material-ui/icons/RemoveCircleOutlineOutlined";
 import { IconButton } from "@material-ui/core";
 import { styles } from "./style";
-import { useParams } from "react-router";
+
 
 export default function CreateSurvey() {
     const classes = styles();
     const [error, setError] = useState(false);
     const [title, setTitle] = useState("");
-    const [inputFields, setInputFields] = useState([{question: "" }]);
-    let { randomString } = useParams();
+    const [inputFields, setInputFields] = useState([{ question: "" }]);
+  
 
     const handleTitle = (event) => {
         setTitle(event.target.value);
-        //console.log(title, event.target.value);
     };
 
     const handleInput = (index, event) => {
-        // console.log(event.target.name);
         const values = [...inputFields];
         values[index][event.target.name] = event.target.value;
         setInputFields(values);
@@ -35,9 +33,7 @@ export default function CreateSurvey() {
     const removeQuestion = (index) => {
         const values = [...inputFields];
         values.splice(index, 1);
-        //Splice: 1-index of element we want to remove), 2- how many elemnts we want to remve, 3- adding new elements
         setInputFields(values);
-       
     };
 
     const submitInput = (event) => {
@@ -46,8 +42,7 @@ export default function CreateSurvey() {
             title: title,
             arrayOfQuestions: inputFields,
         };
-        console.log(data);
-
+       
         axios
             .post("/api/create-survey", data)
             .then(({ data }) => {

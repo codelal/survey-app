@@ -10,21 +10,19 @@ export default function Participants() {
     let { randomString } = useParams();
     const classes = styles();
     const [error, setError] = useState(false);
-    const [inputFields, setInputFields] = useState([{ answer: "" }]);
+    const [inputFields, setInputFields] = useState({});
     const [questions, setQuestions] = useState([]);
     const [title, setTitle] = useState("");
-    const [surveyId, setSurveyId] = useState();
 
     useEffect(() => {
         // let abort;
         axios
-            .get(`/api/questions//${randomString}`) // add survey-id or randomstring to get questions
+            .get(`/api/questions//${randomString}`)
             .then(({ data }) => {
                 if (data.success) {
-                    console.log("data in api/questions", data.reversedAnswers);
-                    setTitle(data.reversedAnswers[0].title);
-                    setSurveyId(data.reversedAnswers[0].survey_id);
-                    setQuestions(data.reversedAnswers);
+                    // console.log("data in api/questions", data.rows);
+                    setTitle(data.rows[0].title);
+                    setQuestions(data.rows);
                 } else {
                     setError(true);
                 }
@@ -40,25 +38,23 @@ export default function Participants() {
     }, []);
 
     const handleInput = (index, event) => {
-        // let values = [...inputFields];
-        // console.log(index, values);
-        // values[index][event.target.name] = event.target.value
-        // setInputFields(values);
+        setInputFields({
+            ...inputFields,
+            [event.target.name]: event.target.value,
+        });
     };
 
     const submitInput = (event) => {
         event.preventDefault();
         var data = {
-            arrayOfAnswers: inputFields,
-            surveyId: surveyId,
+            objectOfAnswers: inputFields,
         };
-        console.log("answers data", data);
 
         axios
             .post("/api/answers", data)
             .then(({ data }) => {
                 if (data.success) {
-                    // location.replace(`/thanks/${randomString}`);
+                    location.replace(`/thanks/${randomString}`);
                 } else {
                     setError(true);
                 }
@@ -77,18 +73,15 @@ export default function Participants() {
             {questions.length &&
                 questions.map((question, index) => (
                     <div key={question.id}>
-                        <p>{question.question}</p>
-                        <form className={classes.textfield}>
-                            <div key={index}>
-                                <Textfield
-                                    name={`${question.id}answer`}
-                                    label={`${index + 1}.Question `}
-                                    variant="outlined"
-                                    value={inputFields.answer}
-                                    onChange={() => handleInput(index, event)}
-                                />
-                            </div>
-                        </form>
+                        <p>
+                            {index + 1}. {question.question}
+                        </p>
+                        <Textfield
+                            name={`${question.id}`}
+                            label={`${index + 1}.Answer `}
+                            variant="outlined"
+                            onChange={(event) => handleInput(index, event)}
+                        />
                     </div>
                 ))}
 
@@ -97,7 +90,7 @@ export default function Participants() {
                 variant="contained"
                 type="submit"
                 color="primary"
-                onClick={() => submitInput(event)}
+                onClick={(event) => submitInput(event)}
             >
                 Send
             </Button>
