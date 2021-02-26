@@ -6,7 +6,8 @@ import { useParams } from "react-router";
 export default function Results() {
     const [error, setError] = useState(false);
     const [title, setTitle] = useState("");
-    const [results, setResults] = useState([]);
+    const [questions, setQuestions] = useState([]);
+    const [answers, setAnswers] = useState([]);
     const { randomString } = useParams();
 
     useEffect(() => {
@@ -15,10 +16,15 @@ export default function Results() {
         axios
             .get(`/api/results/${randomString}`)
             .then(({ data }) => {
-                console.log("data in api/survey-results", data.success);
+                console.log(
+                    "data in api/survey-results",
+                    data.arrayOfQuestions,
+                    data.success
+                );
                 if (data.success) {
-                    setResults(data.rows);
-                    setTitle(data.rows[0].title);
+                    setTitle(data.arrayOfQuestions[0].title);
+                    setQuestions(data.arrayOfQuestions);
+                    setAnswers(data.arrayOfAnswers);
                 } else {
                     setError(true);
                 }
@@ -42,13 +48,20 @@ export default function Results() {
             </Link>
             {error && <p>Something went wrong, try again!</p>}
             <h2>Results for: {title}</h2>
-            {results &&
-                results.map((result, index) => (
-                    <div key={result.id}>
+            {questions &&
+                questions.map((question, index) => (
+                    <div key={question.id}>
                         <p>
-                            {index + 1}. {result.question}
+                            {index + 1}. {question.question}
                         </p>
-                        <p>{result.answer}</p>
+                        {answers &&
+                            answers.map((answer, index) => (
+                                <div key={index}>
+                                    {answer.id === question.id && (
+                                        <p>{answer.answer}</p>
+                                    )}
+                                </div>
+                            ))}
                     </div>
                 ))}
         </>

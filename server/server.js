@@ -61,10 +61,13 @@ app.post("/api/create-survey", (req, res) => {
 app.get("/api/results/:resultCode", (req, res) => {
     const { resultCode } = req.params;
     console.log("api/results/:resultCode", resultCode);
-    db.getResults(resultCode)
+    db.getQuestions(resultCode)
         .then(({ rows }) => {
-            console.log(rows);
-            res.json({ success: true, rows });
+            const arrayOfQuestions = rows;
+            db.getAnswers(resultCode).then(({ rows }) => {
+                const arrayOfAnswers = rows;
+                res.json({ success: true, arrayOfQuestions, arrayOfAnswers });
+            });
         })
         .catch((err) => {
             console.log("error in getResults", err);
