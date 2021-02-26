@@ -37,20 +37,27 @@ app.post("/api/create-survey", (req, res) => {
 
     db.insertSurvey(title, randomString)
         .then(({ rows }) => {
-            req.session.surveyId = rows[0].id;
             const surveyId = rows[0].id;
+            const promises = [];
             for (let i = 0; i < arrayOfQuestions.length; i++) {
-                db.insertQuestions(surveyId, arrayOfQuestions[i].question)
-                    .then()
-                    .catch((err) => {
-                        console.log("error in insertQuestions", err);
-                        res.json({ success: false });
-                    });
+                promises.push(
+                    db.insertQuestions(surveyId, arrayOfQuestions[i].question)
+                );
             }
-            res.json({
-                success: true,
-                randomString: randomString,
-            });
+            Promise.all(promises)
+                .then(() => {
+                    res.json({
+                        success: true,
+                        randomString: randomString,
+                    });
+                })
+                .catch((err) => {
+                    console.log(
+                        "error in insertQuestions in promises.all",
+                        err
+                    );
+                    res.json({ success: false });
+                });
         })
         .catch((err) => {
             console.log("error in insertSurvey", err);
@@ -97,18 +104,23 @@ app.post("/api/answers", (req, res) => {
     // console.log("post /api/answers", objectOfAnswers);
     let arrayOfAnswers = Object.entries(objectOfAnswers);
     // console.log(arrayOfAnswers);
+    const promises = [];
 
     for (let i = 0; i < arrayOfAnswers.length; i++) {
-        db.insertAnswers(arrayOfAnswers[i][0], arrayOfAnswers[i][1])
-            .then()
-            .catch((err) => {
-                console.log("error in insertAnswers", err);
-                res.json({ success: false });
-            });
+        promises.push(
+            db.insertAnswers(arrayOfAnswers[i][0], arrayOfAnswers[i][1])
+        );
     }
-    res.json({
-        success: true,
-    });
+    Promise.all(promises)
+        .then(() => {
+            res.json({
+                success: true,
+            });
+        })
+        .catch((err) => {
+            console.log("error in insertAnswers", err);
+            res.json({ success: false });
+        });
 });
 
 app.get("*", function (req, res) {
