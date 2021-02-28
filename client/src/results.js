@@ -58,7 +58,9 @@ export default function Results() {
                             answers.map((answer, index) => (
                                 <div key={index}>
                                     {answer.id === question.id && (
-                                        <p>{answer.answer}</p>
+                                        <p>
+                                            User{answer.participant} answers: {answer.answer} 
+                                        </p>
                                     )}
                                 </div>
                             ))}

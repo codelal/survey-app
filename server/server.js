@@ -5,6 +5,7 @@ const path = require("path");
 const csurf = require("csurf");
 const cookieSession = require("cookie-session");
 const uidSafe = require("uid-safe");
+const cryptoRandomString = require("crypto-random-string");
 const db = require("./db");
 
 app.use(compression());
@@ -67,11 +68,12 @@ app.post("/api/create-survey", (req, res) => {
 
 app.get("/api/results/:resultCode", (req, res) => {
     const { resultCode } = req.params;
-    console.log("api/results/:resultCode", resultCode);
+    console.log("api/results/:resultCode", resultCode, "1", req.session);
     db.getQuestions(resultCode)
         .then(({ rows }) => {
             const arrayOfQuestions = rows;
             db.getAnswers(resultCode).then(({ rows }) => {
+                console.log("answers", rows);
                 const arrayOfAnswers = rows;
                 res.json({ success: true, arrayOfQuestions, arrayOfAnswers });
             });
@@ -103,12 +105,20 @@ app.post("/api/answers", (req, res) => {
     const { objectOfAnswers } = req.body;
     // console.log("post /api/answers", objectOfAnswers);
     let arrayOfAnswers = Object.entries(objectOfAnswers);
-    // console.log(arrayOfAnswers);
+    console.log(arrayOfAnswers);
     const promises = [];
+    const participantId = cryptoRandomString({
+        length: 4,
+    });
+    // const user = req.session.userId;
 
     for (let i = 0; i < arrayOfAnswers.length; i++) {
         promises.push(
-            db.insertAnswers(arrayOfAnswers[i][0], arrayOfAnswers[i][1])
+            db.insertAnswers(
+                arrayOfAnswers[i][0],
+                arrayOfAnswers[i][1],
+                participantId
+            )
         );
     }
     Promise.all(promises)

@@ -29,24 +29,21 @@ module.exports.getQuestions = (resultsCode) => {
     );
 };
 
-module.exports.insertAnswers = (questionId, answer) => {
+module.exports.insertAnswers = (questionId, answer, participantId) => {
     return db.query(
-        `INSERT INTO answers (question_id, answer)
-        VALUES($1, $2)
+        `INSERT INTO answers (question_id, answer, participant)
+        VALUES($1, $2, $3)
         RETURNING id`,
-        [questionId, answer]
+        [questionId, answer, participantId]
     );
 };
-
 
 module.exports.getAnswers = (resultsCode) => {
     return db.query(
-        `SELECT questions.id, answers.answer FROM questions LEFT JOIN surveys ON questions.survey_id = surveys.id JOIN answers ON answers.question_id = questions.id WHERE surveys.results_code = $1 ORDER BY questions.id ASC`,
+        `SELECT questions.id, answers.answer, answers.participant FROM questions LEFT JOIN surveys ON questions.survey_id = surveys.id JOIN answers ON answers.question_id = questions.id WHERE surveys.results_code = $1 ORDER BY answers.id ASC`,
         [resultsCode]
     );
 };
-
-
 
 // module.exports.getResults = (resultsCode) => {
 //     return db.query(
