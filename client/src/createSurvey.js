@@ -7,14 +7,14 @@ import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOut
 import RemoveCircleOutlineOutlinedIcon from "@material-ui/icons/RemoveCircleOutlineOutlined";
 import { IconButton } from "@material-ui/core";
 import { styles } from "./style";
-
+import "fontsource-roboto";
+import Typography from "@material-ui/core/Typography";
 
 export default function CreateSurvey() {
     const classes = styles();
     const [error, setError] = useState(false);
     const [title, setTitle] = useState("");
     const [inputFields, setInputFields] = useState([{ question: "" }]);
-  
 
     const handleTitle = (event) => {
         setTitle(event.target.value);
@@ -42,7 +42,7 @@ export default function CreateSurvey() {
             title: title,
             arrayOfQuestions: inputFields,
         };
-       
+
         axios
             .post("/api/create-survey", data)
             .then(({ data }) => {
@@ -60,7 +60,7 @@ export default function CreateSurvey() {
 
     return (
         <Container>
-            <h1>Your new survey</h1>
+            <Typography variant="h1">Your new survey</Typography>
             <p>
                 {" "}
                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed

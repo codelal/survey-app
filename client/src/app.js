@@ -1,4 +1,6 @@
 import { BrowserRouter, Route } from "react-router-dom";
+//import "fontsource-roboto";
+import Typography from "@material-ui/core/Typography";
 import Index from "./index";
 import CreateSurvey from "./createSurvey";
 import Results from "./results";
@@ -8,7 +10,7 @@ import Thanks from "./thanks";
 export default function App() {
     return (
         <>
-            <h1>Survey-App</h1>
+            <Typography variant="h5">Survey-App</Typography>
             <BrowserRouter>
                 <div>
                     <Route exact path="/" component={Index} />
@@ -18,10 +20,7 @@ export default function App() {
                         path="/participants/:randomString"
                         component={Participants}
                     />
-                    <Route
-                        path="/thanks/:randomString"
-                        component={Thanks}
-                    />
+                    <Route path="/thanks/:randomString" component={Thanks} />
                 </div>
             </BrowserRouter>
         </>

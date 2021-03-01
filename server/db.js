@@ -45,20 +45,3 @@ module.exports.getAnswers = (resultsCode) => {
     );
 };
 
-// module.exports.getResults = (resultsCode) => {
-//     return db.query(
-//         `SELECT surveys.title, questions.question, questions.id, answers.answer FROM questions LEFT JOIN surveys ON questions.survey_id = surveys.id JOIN answers ON answers.question_id = questions.id WHERE surveys.results_code = $1 ORDER BY questions.id ASC`,
-//         [resultsCode]
-//     );
-// };
-
-// module.exports.getProfileData = (userId) => {
-//     return db.query(
-//         `SELECT users.first, users.last, users.email, user_profiles.age, user_profiles.url, user_profiles.city
-//         FROM user_profiles
-//         LEFT JOIN  users
-//         ON user_profiles.user_id = users.id
-//         WHERE user_profiles.user_id = ($1)`,
-//         [userId]
-//     );
-// };
