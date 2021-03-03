@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Container from "@material-ui/core/Container";
 import Textfield from "@material-ui/core/Textfield";
 import Button from "@material-ui/core/Button";
-import { styles } from "./style";
+import { styles } from "./styles";
 import { useParams } from "react-router";
 
 export default function Participants() {
