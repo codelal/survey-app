@@ -8,9 +8,9 @@ import RemoveCircleOutlineOutlinedIcon from "@material-ui/icons/RemoveCircleOutl
 import { IconButton } from "@material-ui/core";
 import { styles } from "./styles";
 import { theme } from "./theme";
-import "fontsource-roboto";
 import Typography from "@material-ui/core/Typography";
 import { ThemeProvider } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
 
 export default function CreateSurvey() {
     const classes = styles();
@@ -44,7 +44,6 @@ export default function CreateSurvey() {
             title: title,
             arrayOfQuestions: inputFields,
         };
-        console.log("s", data.arrayOfQuestions[0].question);
 
         if (!data.title) {
             setError("Please make sure you added a title");
@@ -77,50 +76,61 @@ export default function CreateSurvey() {
             <ThemeProvider theme={theme}>
                 <Typography variant="h5">Your new survey</Typography>
                 <Typography variant="body1">
-                    Create you new servey here. You can add as much questions as
+                    Create you new survey here. You can add as much questions as
                     you want.
                 </Typography>
                 {error && <p>{error}</p>}
                 <Textfield
+                    className={classes.title}
                     name="title"
-                    label="Title"
-                    variant="outlined"
-                    onChange={() => handleTitle(event)}
+                    placeholder="Title:"
+                    variant="standard"
+                    onChange={(event) => handleTitle(event)}
                 />
-                <form className={classes.textfield}>
-                    {inputFields.map((inputField, index) => (
-                        <div key={index}>
-                            <Textfield
-                                name="question"
-                                label={`${index + 1}.Question `}
-                                variant="outlined"
-                                value={inputField.question}
-                                onChange={() => handleInput(index, event)}
-                            />
-                            <IconButton
-                                className={classes.add}
-                                onClick={() => addQuestion()}
-                            >
-                                <AddCircleOutlineOutlinedIcon />{" "}
-                            </IconButton>
-                            <IconButton
-                                className={classes.remove}
-                                onClick={() => removeQuestion(index)}
-                            >
-                                <RemoveCircleOutlineOutlinedIcon />
-                            </IconButton>
-                        </div>
-                    ))}
-                    <Button
-                        className={classes.button}
-                        variant="contained"
-                        type="submit"
-                        color="primary"
-                        onClick={() => submitInput(event)}
-                    >
-                        Save and publish
-                    </Button>
-                </form>
+                <Grid container justify="center" direction="row">
+                    <form>
+                        {inputFields.map((inputField, index) => (
+                            <div key={index}>
+                                <Grid item xs="90%">
+                                    <Textfield
+                                        className={classes.textfield}
+                                        name="question"
+                                        placeholder={`${index + 1}.Question:`}
+                                        variant="standard"
+                                        value={inputField.question}
+                                        onChange={(event) =>
+                                            handleInput(index, event)
+                                        }
+                                    />
+                                </Grid>
+                                <Grid item xs="10%">
+                                    <IconButton
+                                        className={classes.remove}
+                                        onClick={() => removeQuestion(index)}
+                                    >
+                                        <RemoveCircleOutlineOutlinedIcon />
+                                    </IconButton>
+                                </Grid>
+                            </div>
+                        ))}
+                        <IconButton
+                            className={classes.add}
+                            onClick={() => addQuestion()}
+                        >
+                            <AddCircleOutlineOutlinedIcon />{" "}
+                        </IconButton>
+
+                        <Button
+                            className={classes.button}
+                            variant="contained"
+                            type="submit"
+                            color="primary"
+                            onClick={() => submitInput(event)}
+                        >
+                            Save and publish
+                        </Button>
+                    </form>
+                </Grid>
             </ThemeProvider>
         </Container>
     );

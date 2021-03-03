@@ -31,14 +31,21 @@ export const theme = createMuiTheme({
             border: "10 solid black",
             fontFamily: "roboto slab",
         },
-        margin: "auto",
+      
     },
     palette: {
         primary: {
             main: "#404a86",
         },
     },
-    textfield: {
-        marginTop: 50,
-    },
+    // overrides: {
+    //     MuiTextField: {
+    //         // Name of the rule
+    //         root: {
+    //             // Some CSS
+    //             marginTop: 30,
+    //             width: "100%",
+    //         },
+    //     },
+    // },
 });
