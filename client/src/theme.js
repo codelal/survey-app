@@ -10,6 +10,7 @@ export const theme = createMuiTheme({
             fontWeight: 350,
             fontFamily: "roboto slab",
             textTransform: "uppercase",
+            textAlign: "center",
         },
         h5: {
             marginBottom: 20,
@@ -25,13 +26,21 @@ export const theme = createMuiTheme({
             width: "40%",
             textAlign: "justify",
         },
+        
+        body2: {
+            fontWeight: 200,
+            margin: "auto",
+            width: "40%",
+            textAlign: "center",
+            marginBottom: 20
+        },
+
         button: {
             marginTop: 50,
             textTransform: "uppercase",
             border: "10 solid black",
             fontFamily: "roboto slab",
         },
-      
     },
     palette: {
         primary: {

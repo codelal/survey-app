@@ -57,9 +57,7 @@ export default function CreateSurvey() {
                         setError("");
                         location.replace(`/results/${data.randomString}`);
                     } else {
-                        setError(
-                            "Sorry, something went wrong. Please fill your survey out again!"
-                        );
+                        setError("Sorry, something went wrong. Try again!");
                     }
                 })
                 .catch((error) => {
@@ -75,11 +73,11 @@ export default function CreateSurvey() {
         <Container>
             <ThemeProvider theme={theme}>
                 <Typography variant="h5">Your new survey</Typography>
-                <Typography variant="body1">
-                    Create you new survey here. You can add as much questions as
-                    you want.
+                <Typography variant="body2">
+                    You can add as much questions as you want.
+                    {error && <p className={classes.error}>{error}</p>}
                 </Typography>
-                {error && <p>{error}</p>}
+
                 <Textfield
                     className={classes.title}
                     name="title"
@@ -92,12 +90,11 @@ export default function CreateSurvey() {
                         <div key={index} className={classes.container}>
                             <Textfield
                                 name="question"
-                                placeholder={`${index + 1}.Question:`}
+                                label={`${index + 1}.Question:`}
                                 variant="standard"
                                 value={inputField.question}
                                 onChange={(event) => handleInput(index, event)}
                             />
-
                             <IconButton
                                 className={classes.remove}
                                 onClick={() => removeQuestion(index)}
@@ -106,22 +103,25 @@ export default function CreateSurvey() {
                             </IconButton>
                         </div>
                     ))}
-                    <IconButton
-                        className={classes.add}
-                        onClick={() => addQuestion()}
-                    >
-                        <AddCircleOutlineOutlinedIcon />{" "}
-                    </IconButton>
+                    <div className={classes.buttonContainer}>
+                        <Button
+                            className={classes.add}
+                            variant="text"
+                            onClick={(event) => addQuestion(event)}
+                        >
+                            + add question
+                        </Button>
 
-                    <Button
-                        className={classes.button}
-                        variant="contained"
-                        type="submit"
-                        color="primary"
-                        onClick={() => submitInput(event)}
-                    >
-                        Save and publish
-                    </Button>
+                        <Button
+                            className={classes.save}
+                            variant="outlined"
+                            type="submit"
+                            color="primary"
+                            onClick={() => submitInput(event)}
+                        >
+                            Save and publish
+                        </Button>
+                    </div>
                 </form>
             </ThemeProvider>
         </Container>
