@@ -1,14 +1,19 @@
 import axios from "./axios";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import Container from "@material-ui/core/Container";
 import Textfield from "@material-ui/core/Textfield";
 import Button from "@material-ui/core/Button";
-import { styles } from "./styles";
-import { useParams } from "react-router";
+import Typography from "@material-ui/core/Typography";
+import { ThemeProvider } from "@material-ui/core/styles";
+import Icon from "@material-ui/core/Icon";
+import SendIcon from "@material-ui/icons/Send";
+import { useStyles } from "./styles";
+import { theme } from "./theme";
 
 export default function Participants() {
+    const classes = useStyles();
     let { randomString } = useParams();
-    const classes = styles();
     const [error, setError] = useState(false);
     const [inputFields, setInputFields] = useState({});
     const [questions, setQuestions] = useState([]);
@@ -67,33 +72,51 @@ export default function Participants() {
 
     return (
         <Container>
-            <h1>Welcome to the survey</h1>
-            {error && <p>Something went wrong, try again!</p>}
-            <p>Title: {title}</p>
-            {questions.length &&
-                questions.map((question, index) => (
-                    <div key={question.id}>
-                        <p>
-                            {index + 1}. {question.question}
-                        </p>
-                        <Textfield
-                            name={`${question.id}`}
-                            label={`${index + 1}.Answer `}
-                            variant="outlined"
-                            onChange={(event) => handleInput(index, event)}
-                        />
-                    </div>
-                ))}
+            <ThemeProvider theme={theme}>
+                <Typography variant="h5" className={classes.indexTitle}>
+                    Welcome to the survey{" "}
+                </Typography>
+                {error && (
+                    <p className={classes.error}>
+                        Something went wrong, try again!
+                    </p>
+                )}
+                <Typography variant="body2">
+                    Pleas eanswer the questions below. You participation is fully
+                    anonymous. Thank you for you time!
+                </Typography>
+                <Typography variant="h6">Title: {title}</Typography>
+                {questions.length &&
+                    questions.map((question, index) => (
+                        <div key={question.id} className={classes.root}>
+                            <Typography
+                                variant="body2"
+                                className={classes.particpiantQuestions}
+                            >
+                                {" "}
+                                {index + 1}. {question.question}
+                            </Typography>
 
-            <Button
-                className={classes.button}
-                variant="contained"
-                type="submit"
-                color="primary"
-                onClick={(event) => submitInput(event)}
-            >
-                Send
-            </Button>
+                            <Textfield
+                                name={`${question.id}`}
+                                label={`${index + 1}.Answer `}
+                                variant="outlined"
+                                onChange={(event) => handleInput(index, event)}
+                            />
+                        </div>
+                    ))}
+
+                <Button
+                    className={classes.indexButton}
+                    variant="contained"
+                    type="submit"
+                    color="primary"
+                    endIcon={<SendIcon />}
+                    onClick={(event) => submitInput(event)}
+                >
+                    Send
+                </Button>
+            </ThemeProvider>
         </Container>
     );
 }

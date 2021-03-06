@@ -91,10 +91,6 @@ export const useStyles = makeStyles(() => ({
     buttonContainer: {
         display: "flex",
         flexDirection: "column",
-
-        // border: 1,
-        // borderColor: "black",
-        // borderStyle: "solid",
     },
 
     resultContainer: {
@@ -110,7 +106,6 @@ export const useStyles = makeStyles(() => ({
         padding: 6,
         fontWeight: "bold",
         marginBottom: 10,
-        
     },
 
     shareableLink: {
@@ -124,16 +119,16 @@ export const useStyles = makeStyles(() => ({
         marginTop: 10,
     },
 
-    // answerContainer: {
-    //     border: 1,
-    //     borderColor: "black",
-    //     borderStyle: "solid",
-    //     width: "50%",
-
-    // },
-
     answer: {
         textAlign: "left",
         marginBottom: 3,
+    },
+
+    particpiantQuestions: {
+        marginTop: "3%",
+        marginBottom: "0%",
+        // border: 1,
+        // borderColor: "black",
+        // borderStyle: "solid",
     },
 }));

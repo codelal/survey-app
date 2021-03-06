@@ -87,10 +87,7 @@ export default function Results() {
                             </Typography>
                             {answers &&
                                 answers.map((answer, index) => (
-                                    <div
-                                        className={classes.answerContainer}
-                                        key={index}
-                                    >
+                                    <div key={index}>
                                         {answer.id === question.id && (
                                             <Typography
                                                 variant="body2"
