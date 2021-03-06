@@ -6,15 +6,15 @@ import Textfield from "@material-ui/core/Textfield";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { ThemeProvider } from "@material-ui/core/styles";
-import Icon from "@material-ui/core/Icon";
 import SendIcon from "@material-ui/icons/Send";
 import { useStyles } from "./styles";
 import { theme } from "./theme";
+const defaultError = "Something went wrong, try again";
 
 export default function Participants() {
     const classes = useStyles();
     let { randomString } = useParams();
-    const [error, setError] = useState(false);
+    const [error, setError] = useState("");
     const [inputFields, setInputFields] = useState({});
     const [questions, setQuestions] = useState([]);
     const [title, setTitle] = useState("");
@@ -29,12 +29,12 @@ export default function Participants() {
                     setTitle(data.rows[0].title);
                     setQuestions(data.rows);
                 } else {
-                    setError(true);
+                    setError(defaultError);
                 }
             })
             .catch((err) => {
                 console.log("error api/api/questions", err);
-                setError(true);
+                setError(defaultError);
             });
 
         // return () => {
@@ -43,6 +43,7 @@ export default function Participants() {
     }, []);
 
     const handleInput = (index, event) => {
+        setError("");
         setInputFields({
             ...inputFields,
             [event.target.name]: event.target.value,
@@ -54,20 +55,26 @@ export default function Participants() {
         var data = {
             objectOfAnswers: inputFields,
         };
+        console.log("data", data.objectOfAnswers, questions.length);
 
-        axios
-            .post("/api/answers", data)
-            .then(({ data }) => {
-                if (data.success) {
-                    location.replace(`/thanks/${randomString}`);
-                } else {
-                    setError(true);
-                }
-            })
-            .catch((error) => {
-                console.log("error in post api/create-survey", error);
-                setError(true);
-            });
+        if (Object.keys(data.objectOfAnswers).length === questions.length) {
+            axios
+                .post("/api/answers", data)
+                .then(({ data }) => {
+                    if (data.success) {
+                        setError("");
+                        location.replace(`/thanks/${randomString}`);
+                    } else {
+                        setError(defaultError);
+                    }
+                })
+                .catch((error) => {
+                    console.log("error in post api/create-survey", error);
+                    setError(defaultError);
+                });
+        } else {
+            setError("Make sure you answered all questions! :)");
+        }
     };
 
     return (
@@ -76,14 +83,10 @@ export default function Participants() {
                 <Typography variant="h5" className={classes.indexTitle}>
                     Welcome to the survey{" "}
                 </Typography>
-                {error && (
-                    <p className={classes.error}>
-                        Something went wrong, try again!
-                    </p>
-                )}
+                {error && <p className={classes.error}>{error}</p>}
                 <Typography variant="body2">
-                    Pleas eanswer the questions below. You participation is fully
-                    anonymous. Thank you for you time!
+                    Pleas eanswer the questions below. You participation is
+                    fully anonymous. Thank you for you time!
                 </Typography>
                 <Typography variant="h6">Title: {title}</Typography>
                 {questions.length &&
