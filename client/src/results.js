@@ -2,8 +2,16 @@ import axios from "./axios";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import Container from "@material-ui/core/Container";
+import { ThemeProvider } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import LinkIcon from "@material-ui/icons/Link";
+import { theme } from "./theme";
+import { useStyles } from "./styles";
 
 export default function Results() {
+    const classes = useStyles();
     const [error, setError] = useState(false);
     const [title, setTitle] = useState("");
     const [questions, setQuestions] = useState([]);
@@ -40,32 +48,62 @@ export default function Results() {
     }, []);
 
     return (
-        <>
-            <h1>You new survey</h1>
-            <p>You should really bookmark this page</p>
-            <Link to={`/participants/${randomString}`}>
-                Open you shareable Link here
-            </Link>
-            {error && <p>Something went wrong, try again!</p>}
-            <h2>Results for: {title}</h2>
-            {questions &&
-                questions.map((question, index) => (
-                    <div key={question.id}>
-                        <p>
-                            {index + 1}. {question.question}
+        <Container className={classes.resultContainer}>
+            <Typography variant="h5" className={classes.indexTitle}>
+                You new survey{" "}
+            </Typography>
+            <ThemeProvider theme={theme}>
+                <Typography variant="body2" className={classes.bookmark}>
+                    You should really bookmark this page!
+                </Typography>
+                <Button
+                    className={classes.shareableLink}
+                    size="small"
+                    color="secondary"
+                    variant="contained"
+                    startIcon={<LinkIcon />}
+                    onClick={() =>
+                        location.replace(`/participants/${randomString}`)
+                    }
+                >
+                    Open you shareable Link here
+                </Button>{" "}
+                <Typography variant="h6">
+                    Results for: {title} <br />{" "}
+                    {error && (
+                        <p className={classes.error}>
+                            Something went wrong, try again!
                         </p>
-                        {answers &&
-                            answers.map((answer, index) => (
-                                <div key={index}>
-                                    {answer.id === question.id && (
-                                        <p>
-                                            User{answer.participant} answers: {answer.answer} 
-                                        </p>
-                                    )}
-                                </div>
-                            ))}
-                    </div>
-                ))}
-        </>
+                    )}{" "}
+                </Typography>
+                {questions &&
+                    questions.map((question, index) => (
+                        <div key={question.id}>
+                            <Typography
+                                variant="body2"
+                                className={classes.question}
+                            >
+                                {index + 1}. {question.question}
+                            </Typography>
+                            {answers &&
+                                answers.map((answer, index) => (
+                                    <div
+                                        className={classes.answerContainer}
+                                        key={index}
+                                    >
+                                        {answer.id === question.id && (
+                                            <Typography
+                                                variant="body2"
+                                                className={classes.answer}
+                                            >
+                                                -{answer.answer}
+                                            </Typography>
+                                        )}
+                                    </div>
+                                ))}
+                        </div>
+                    ))}
+            </ThemeProvider>
+        </Container>
     );
 }

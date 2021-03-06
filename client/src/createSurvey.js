@@ -3,14 +3,12 @@ import axios from "./axios";
 import Container from "@material-ui/core/Container";
 import Textfield from "@material-ui/core/Textfield";
 import Button from "@material-ui/core/Button";
-import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
-import RemoveCircleOutlineOutlinedIcon from "@material-ui/icons/RemoveCircleOutlineOutlined";
-import { IconButton } from "@material-ui/core";
-import { useStyles } from "./styles";
-import { theme } from "./theme";
 import Typography from "@material-ui/core/Typography";
 import { ThemeProvider } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import { useStyles } from "./styles";
+import { theme } from "./theme";
+
 
 export default function CreateSurvey() {
     const classes = useStyles();
@@ -72,7 +70,9 @@ export default function CreateSurvey() {
     return (
         <Container>
             <ThemeProvider theme={theme}>
-                <Typography variant="h5">Your new survey</Typography>
+                <Typography variant="h5" className={classes.indexTitle}>
+                    Your new survey
+                </Typography>
                 <Typography variant="body2">
                     You can add as much questions as you want.
                     {error && <p className={classes.error}>{error}</p>}
@@ -95,12 +95,12 @@ export default function CreateSurvey() {
                                 value={inputField.question}
                                 onChange={(event) => handleInput(index, event)}
                             />
-                            <IconButton
+
+                            <DeleteForeverIcon
                                 className={classes.remove}
                                 onClick={() => removeQuestion(index)}
-                            >
-                                <RemoveCircleOutlineOutlinedIcon />
-                            </IconButton>
+                                size="big"
+                            />
                         </div>
                     ))}
                     <div className={classes.buttonContainer}>
@@ -111,10 +111,10 @@ export default function CreateSurvey() {
                         >
                             + add question
                         </Button>
-
                         <Button
                             className={classes.save}
-                            variant="outlined"
+                            variant="contained"
+                            size="small"
                             type="submit"
                             color="primary"
                             onClick={() => submitInput(event)}

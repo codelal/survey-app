@@ -5,8 +5,6 @@ import green from "@material-ui/core/colors/green";
 export const theme = createMuiTheme({
     typography: {
         h4: {
-            marginBottom: 40,
-            marginTop: "12%",
             fontWeight: 350,
             fontFamily: "roboto slab",
             textTransform: "uppercase",
@@ -14,10 +12,14 @@ export const theme = createMuiTheme({
         },
         h5: {
             marginBottom: 20,
-            marginTop: "12%",
             fontWeight: 350,
             fontFamily: "roboto slab",
             textTransform: "uppercase",
+        },
+        h6: {
+            marginTop: 30,
+            fontFamily: "roboto slab",
+            
         },
 
         body1: {
@@ -26,25 +28,26 @@ export const theme = createMuiTheme({
             width: "40%",
             textAlign: "justify",
         },
-        
+
         body2: {
             fontWeight: 200,
             margin: "auto",
             width: "40%",
             textAlign: "center",
-            marginBottom: 20
+            marginBottom: 30,
         },
 
         button: {
-            marginTop: 50,
             textTransform: "uppercase",
-            border: "10 solid black",
             fontFamily: "roboto slab",
         },
     },
     palette: {
         primary: {
             main: "#404a86",
+        },
+        secondary: {
+            main: "#1a746b",
         },
     },
     // overrides: {
