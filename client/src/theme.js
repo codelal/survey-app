@@ -47,14 +47,4 @@ export const theme = createMuiTheme({
             main: "#1a746b",
         },
     },
-    // overrides: {
-    //     MuiTextField: {
-    //         // Name of the rule
-    //         root: {
-    //             // Some CSS
-    //             marginTop: 30,
-    //             width: "100%",
-    //         },
-    //     },
-    // },
 });

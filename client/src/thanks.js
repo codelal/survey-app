@@ -11,11 +11,12 @@ export default function Thanks() {
     return (
         <Container>
             <ThemeProvider theme={theme}>
-                <Typography variant="h5" className={classes.indexTitle}>
+                <Typography variant="h5" className={classes.indexTitle} color="primary">
                     Thank you for participation!{" "}
                 </Typography>
                 <FavoriteBorderIcon
                     fontSize="large"
+                    variant="contained"
                     style={{ color: pink [700] }}
                 />
             </ThemeProvider>

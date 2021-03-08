@@ -1,5 +1,4 @@
 import axios from "./axios";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Container from "@material-ui/core/Container";
@@ -48,8 +47,8 @@ export default function Results() {
     }, []);
 
     return (
-        <Container className={classes.resultContainer}>
-            <Typography variant="h5" className={classes.indexTitle}>
+        <Container className={classes.parentContainer}>
+            <Typography variant="h5" className={classes.title}>
                 You new survey{" "}
             </Typography>
             <ThemeProvider theme={theme}>
@@ -69,7 +68,7 @@ export default function Results() {
                     Open you shareable Link here
                 </Button>{" "}
                 <Typography variant="h6">
-                    Results for: {title} <br />{" "}
+                    {title} <br />{" "}
                     {error && (
                         <p className={classes.error}>
                             Something went wrong, try again!
@@ -78,7 +77,10 @@ export default function Results() {
                 </Typography>
                 {questions &&
                     questions.map((question, index) => (
-                        <div key={question.id}>
+                        <div
+                            key={question.id}
+                            className={classes.resultContainer}
+                        >
                             <Typography
                                 variant="body2"
                                 className={classes.question}
@@ -93,11 +95,19 @@ export default function Results() {
                                                 variant="body2"
                                                 className={classes.answer}
                                             >
-                                                -{answer.answer}
+                                                - {answer.answer}
                                             </Typography>
                                         )}
                                     </div>
                                 ))}
+                            {answers.length === 0 && (
+                                <Typography
+                                    variant="body2"
+                                    className={classes.answer}
+                                >
+                                    - no answer yet
+                                </Typography>
+                            )}
                         </div>
                     ))}
             </ThemeProvider>

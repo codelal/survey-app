@@ -4,8 +4,10 @@ export const useStyles = makeStyles(() => ({
     root: {
         "& .MuiTextField-root": {
             marginLeft: "3%",
-            marginTop: 20,
-            width: "35%",
+            marginTop: "1%",
+            width: "40%",
+            winWidth: "20%",
+
             // border: 1,
             // borderColor: "green",
             // borderStyle: "solid",
@@ -14,6 +16,7 @@ export const useStyles = makeStyles(() => ({
         "& .MuiInputBase-root": {
             width: "100%",
             marginRight: "10%",
+            marginBottom: "2%",
             // border: 1,
             // borderColor: "pink",
             // borderStyle: "solid",
@@ -38,14 +41,19 @@ export const useStyles = makeStyles(() => ({
 
     indexTitle: {
         marginBottom: 30,
-        marginTop: "12%",
+        marginTop: 120,
     },
 
     indexButton: {
-        marginTop: "5%",
+        marginTop: 30,
     },
 
-    container: {
+    title: {
+        marginTop: 110,
+        marginBottom: 30,
+    },
+
+    questionsContainer: {
         display: "flex",
         width: "100%",
         justifyContent: "center",
@@ -59,26 +67,8 @@ export const useStyles = makeStyles(() => ({
         color: "#a31545",
     },
 
-    title: {
+    surveyTitle: {
         width: "60%",
-        // border: 1,
-        // borderColor: "black",
-        // borderStyle: "solid",
-    },
-
-    add: {
-        color: "#1a746b",
-        marginTop: 20,
-        marginLeft: "57.5%",
-        textTransform: "lowercase",
-        width: 140,
-        fontSize: 18,
-    },
-
-    save: {
-        marginTop: 30,
-        maxWidth: 160,
-        marginLeft: "55%",
     },
 
     remove: {
@@ -89,48 +79,74 @@ export const useStyles = makeStyles(() => ({
     },
 
     buttonContainer: {
-        display: "flex",
-        flexDirection: "column",
-    },
-
-    resultContainer: {
-        width: "90%",
-    },
-
-    bookmark: {
-        border: 3,
-        borderColor: "#ffd54f",
-        borderStyle: "solid",
-        // backgroundColor: "#ffd54f",
-        borderRadius: 5,
-        padding: 6,
-        fontWeight: "bold",
-        marginBottom: 10,
-    },
-
-    shareableLink: {
-        marginTop: "3%",
-    },
-
-    question: {
-        textAlign: "left",
-        fontWeight: "bold",
-        marginBottom: 10,
-        marginTop: 10,
-    },
-
-    answer: {
-        textAlign: "left",
-        marginBottom: 3,
-    },
-
-    particpiantQuestions: {
-        marginTop: "3%",
-        marginBottom: "0%",
+        display: "grid",
+        justifyContent: "center",
         // border: 1,
-        // borderColor: "black",
+        // borderColor: "green",
         // borderStyle: "solid",
     },
 
+    add: {
+        color: "#1a746b",
+        marginTop: 5,
+        textTransform: "lowercase",
+        width: 160,
+        fontSize: 18,
+    },
 
+    save: {
+        marginTop: 40,
+        width: 160,
+        minWidth: 140,
+    },
+
+    bookmark: {
+        border: 1,
+        borderColor: "secondary",
+        borderStyle: "solid",
+        backgroundColor: "#ffd54f",
+        borderRadius: 5,
+        padding: 6,
+
+        width: 250,
+        fontWeight: "bold",
+        marginBottom: "3%",
+        fontSize: 13,
+    },
+
+    shareableLink: {
+        marginBottom: "1%",
+    },
+
+    question: {
+        textAlign: "center",
+        fontWeight: "bold",
+        marginBottom: 10,
+        marginTop: 25,
+        maxWidth: 450,
+        //width: "fit-content",
+        // border: 1,
+        // borderColor: "red",
+        // borderStyle: "solid",
+    },
+
+    answer: {
+        textAlign: "justify-all",
+        marginBottom: 3,
+        maxWidth: 450,
+    },
+
+    participantsInfo: {
+        marginBottom: "5%",
+    },
+
+    particpiantsQuestions: {
+        marginTop: 15,
+        marginBottom: 0,
+        fontWeight: "bold",
+
+        // border: 1,
+        // borderColor: "red",
+        // borderStyle: "solid",
+    },
 }));

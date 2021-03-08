@@ -73,28 +73,35 @@ export default function Participants() {
                     setError(defaultError);
                 });
         } else {
-            setError("Make sure you answered all questions! :)");
+            setError("Make sure you answered all questions!");
         }
     };
 
     return (
         <Container>
             <ThemeProvider theme={theme}>
-                <Typography variant="h5" className={classes.indexTitle}>
-                    Welcome to the survey{" "}
+                <Typography
+                    variant="h5"
+                    className={classes.title}
+                    color="primary"
+                >
+                    Welcome to the survey: {title}!{" "}
                 </Typography>
                 {error && <p className={classes.error}>{error}</p>}
-                <Typography variant="body2">
-                    Pleas eanswer the questions below. You participation is
+                <Typography
+                    variant="body2"
+                    className={classes.participantsInfo}
+                >
+                    Please answer the questions below. You participation is
                     fully anonymous. Thank you for you time!
                 </Typography>
-                <Typography variant="h6">Title: {title}</Typography>
+
                 {questions.length &&
                     questions.map((question, index) => (
                         <div key={question.id} className={classes.root}>
                             <Typography
                                 variant="body2"
-                                className={classes.particpiantQuestions}
+                                className={classes.particpiantsQuestions}
                             >
                                 {" "}
                                 {index + 1}. {question.question}
@@ -103,8 +110,9 @@ export default function Participants() {
                             <Textfield
                                 name={`${question.id}`}
                                 label={`${index + 1}.Answer `}
-                                variant="outlined"
+                                variant="standard"
                                 onChange={(event) => handleInput(index, event)}
+                                className={classes.particpiantAnswers}
                             />
                         </div>
                     ))}
@@ -113,7 +121,7 @@ export default function Participants() {
                     className={classes.indexButton}
                     variant="contained"
                     type="submit"
-                    color="primary"
+                    color="secondary"
                     endIcon={<SendIcon />}
                     onClick={(event) => submitInput(event)}
                 >

@@ -68,12 +68,12 @@ app.post("/api/create-survey", (req, res) => {
 
 app.get("/api/results/:resultCode", (req, res) => {
     const { resultCode } = req.params;
-    console.log("api/results/:resultCode", resultCode, "1", req.session);
+    //console.log("api/results/:resultCode", resultCode, "1", req.session);
     db.getQuestions(resultCode)
         .then(({ rows }) => {
             const arrayOfQuestions = rows;
             db.getAnswers(resultCode).then(({ rows }) => {
-                console.log("answers", rows);
+                //console.log("answers", rows);
                 const arrayOfAnswers = rows;
                 res.json({ success: true, arrayOfQuestions, arrayOfAnswers });
             });
@@ -105,11 +105,9 @@ app.post("/api/answers", (req, res) => {
     const { objectOfAnswers } = req.body;
     // console.log("post /api/answers", objectOfAnswers);
     let arrayOfAnswers = Object.entries(objectOfAnswers);
-    console.log(arrayOfAnswers);
+    //console.log(arrayOfAnswers);
     const promises = [];
-    const participantId = cryptoRandomString({
-        length: 4,
-    });
+    const participantId = uidSafe.sync(18);
     // const user = req.session.userId;
 
     for (let i = 0; i < arrayOfAnswers.length; i++) {

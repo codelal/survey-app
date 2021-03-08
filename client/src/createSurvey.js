@@ -70,16 +70,15 @@ export default function CreateSurvey() {
     return (
         <Container>
             <ThemeProvider theme={theme}>
-                <Typography variant="h5" className={classes.indexTitle}>
+                <Typography variant="h5" className={classes.title}>
                     Your new survey
                 </Typography>
                 <Typography variant="body2">
-                    You can add as much questions as you want.
                     {error && <p className={classes.error}>{error}</p>}
                 </Typography>
 
                 <Textfield
-                    className={classes.title}
+                    className={classes.surveyTitle}
                     name="title"
                     placeholder="Title:"
                     variant="standard"
@@ -87,7 +86,7 @@ export default function CreateSurvey() {
                 />
                 <form className={classes.root}>
                     {inputFields.map((inputField, index) => (
-                        <div key={index} className={classes.container}>
+                        <div key={index} className={classes.questionsContainer}>
                             <Textfield
                                 name="question"
                                 label={`${index + 1}.Question:`}
