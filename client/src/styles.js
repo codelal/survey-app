@@ -45,11 +45,11 @@ export const useStyles = makeStyles(() => ({
     },
 
     indexButton: {
-        marginTop: 30,
+        marginTop: 40,
     },
 
     title: {
-        marginTop: 110,
+        marginTop: 50,
         marginBottom: 30,
     },
 
@@ -136,6 +136,7 @@ export const useStyles = makeStyles(() => ({
         maxWidth: 450,
     },
 
+
     participantsInfo: {
         marginBottom: "5%",
     },
@@ -145,7 +146,6 @@ export const useStyles = makeStyles(() => ({
         marginBottom: 0,
         fontWeight: "bold",
 
-        // border: 1,
         // borderColor: "red",
         // borderStyle: "solid",
     },

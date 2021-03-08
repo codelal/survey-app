@@ -68,7 +68,7 @@ export default function Results() {
                     Open you shareable Link here
                 </Button>{" "}
                 <Typography variant="h6">
-                    {title} <br />{" "}
+                   Titel: {title} <br />{" "}
                     {error && (
                         <p className={classes.error}>
                             Something went wrong, try again!
